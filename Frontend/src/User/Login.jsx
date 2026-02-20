@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Login, SetAuthToken } from "../Api";
 
 const LoginPage = () => {
@@ -102,9 +102,9 @@ const LoginPage = () => {
 
         <p className="text-center text-sm text-gray-600 mt-6">
           Don’t have an account?{" "}
-          <span className="text-blue-600 hover:underline cursor-pointer font-medium">
+          <Link to="/register" className="text-blue-600 hover:underline cursor-pointer font-medium">
             Register
-          </span>
+          </Link>
         </p>
       </div>
     </div>
