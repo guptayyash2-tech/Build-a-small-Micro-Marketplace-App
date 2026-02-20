@@ -1,41 +1,32 @@
 const jwt = require("jsonwebtoken");
 const Usermongo = require("../mongodb/Usermongo");
 
-
-
-// Protect middleware
 const protect = async (req, res, next) => {
   let token;
 
-  if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  ) {
     try {
+      // Get token from header
       token = req.headers.authorization.split(" ")[1];
-
-      if (!process.env.JWT_SECRET) {
-        console.error("❌ JWT_SECRET not defined in .env");
-        return res.status(500).json({ message: "Server misconfiguration" });
-      }
 
       // Verify token
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-      // Get user (excluding password)
+      // Get user from DB (without password)
       req.user = await Usermongo.findById(decoded.id).select("-password");
 
-      if (!req.user) {
-        return res.status(401).json({ message: "User not found" });
-      }
-
-      return next();
+      next();
     } catch (error) {
-      console.error(error);
-      return res.status(401).json({ message: "Not authorized, token invalid" });
+      res.status(401).json({ message: "Not authorized, token failed" });
     }
   }
 
   if (!token) {
-    return res.status(401).json({ message: "Not authorized, no token" });
+    res.status(401).json({ message: "Not authorized, no token" });
   }
 };
 
-module.exports = protect ;
+module.exports =  protect ;

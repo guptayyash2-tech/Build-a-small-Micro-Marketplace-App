@@ -3,6 +3,8 @@ const app = express();
 const mongoose = require("mongoose");
 require("dotenv").config();
 app.use(require("cors")());
+app.use("/uploads", express.static("uploads"));
+
 
 const productrouter = require("./Router/productrouter");
 const userrouter = require("./Router/userrouter");

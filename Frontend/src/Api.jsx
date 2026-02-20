@@ -30,5 +30,30 @@ export const Login = async (credentials) => {
   }
 };
 
+export const GetUserProfile = async () => {
+  try {
+    const response = await Api.get('/profile');
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  } 
+};
+
+export const GetProducts = async () => {
+  try {
+    const response = await Api.get('/products/get');
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  } 
+};
+ export const GetProductById = async (id) => {
+  try {
+    const response = await Api.get(`/products/${id}`);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
 
 
